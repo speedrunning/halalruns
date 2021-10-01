@@ -77,7 +77,7 @@ function calls the
 .BR FetchUsers ()
 function behind the scenes.
 Before it does this though it first sets the
-.B Max
+.I Max
 field of the passed
 .B UserFilter
 to 1 to avoid unnecessary pagination.
