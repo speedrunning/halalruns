@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-mdocdate=$(date "+%d %m, %Y" | sed '
+mdocdate=$(date -u "+%d %m, %Y" | sed '
 s/ 01/ Janurary/
 s/ 02/ February/
 s/ 03/ March/
