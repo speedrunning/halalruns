@@ -58,7 +58,7 @@ type User struct {
 			Names struct {
 				/* The countries name */
 				International string `json:"international"`
-				/* The countires name in Japanese, this is deprecated. */
+				/* The countries name in Japanese, this is deprecated. */
 				Japanese string `json:"japanese"`
 			} `json:"names"`
 		} `json:"country"`
