@@ -1,0 +1,20 @@
+ - Merge the pagination functions into 1 when generics come out in go 1.18
+ - Support the entire API
+   - Authentication
+   - Categories
+   - Developers
+   - Engines
+   - Games
+   - Gametypes
+   - Genres
+   - Guests
+   - Leaderboards
+   - Levels
+   - Notifications
+   - Platforms
+   - Publishers
+   - Regions
+   - Runs
+   - Series
+   - Variables
+ - Add embedding

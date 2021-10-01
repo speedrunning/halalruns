@@ -1,0 +1,119 @@
+.\" vi: ft=nroff
+.\"
+.\" BSD Zero Clause License
+.\" 
+.\" Copyright (c) 2021 Thomas Voss
+.\" 
+.\" Permission to use, copy, modify, and/or distribute this software for any
+.\" purpose with or without fee is hereby granted.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+.\" REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+.\" AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+.\" INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+.\" LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+.\" OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+.\" PERFORMANCE OF THIS SOFTWARE.
+.TH FETCHUSERS 3go "02 October, 2021" "Halalruns" "Go Programmers Manual"
+.SH NAME
+FetchUser, FetchUsers \- Fetch speedrun.com users
+.SH SYNOPSIS
+.nf
+.B import \(dqgithub.com/speedrunning/halalruns\(dq
+.PP
+.BI "func FetchUser(" uf " UserFilter) (User, error)"
+.BI "func FetchUsers(" uf " UserFilter) ([]User, error)"
+.fi
+.SH DESCRIPTION
+The
+.BR FetchUsers ()
+function fetches a slice of users from the speedrun.com API.
+The retrieved users are controlled by the
+.I uf
+argument to the function.
+The way in which the users are sorted and in which direction they are sorted is also specified by
+.IR uf .
+For specific information on the
+.B UserFilter
+struct refer to the
+.BR UserFilter (3go)
+manual.
+If you want to retrieve only a single user as opposed to a slice of users, the
+.BR FetchUser ()
+function can be used.
+It is equivalent to calling
+.BR FetchUsers ()
+with the filters
+.I Max
+field set to 1.
+.SH RETURN VALUE
+The
+.BR FetchUser ()
+function returns a tuple containing a
+.B User
+struct and an error.
+If the error is not nil then the retrieved user will be nil and the error should be handled.
+If the user is not nil then the error will be nil (i.e. there is no error).
+.PP
+The
+.BR FetchUsers ()
+function returns a tuple containing a slice of
+.B User
+structs and an error.
+If the error is not nil then the retrieved user slice will be nil and the error should be handled.
+If the user slice is not nil then the error will be nil (i.e. there is no error).
+.SH NOTES
+If you try to retrieve more than 200 users in a single call to
+.BR FetchUsers ()
+then the funtion will need to perform pagnination.
+Each 200 users you attempt to retrieve in a call will be an additional page that must be dealt with
+and this can have a noticable effect on performance.
+.SH EXAMPLES
+.SS FetchUser()
+The following trivial program fetches the user with the username \(dqAnInternetTroll\(dq and prints
+his name, country, and user ID.
+.PP
+.EX
+package main
+
+import (
+    "fmt"
+
+    "github.com/speedrunning/halalruns"
+)
+
+func main() {
+    uf := halalruns.UserFilter{Lookup: "AnInternetTroll"}
+    user, err := halalruns.FetchUser(uf)
+    if err == nil {
+        fmt.Printf("User %s is from %s and has ID %s\en", u.Names.International,
+                   u.Location.Country.Names.International, u.ID)
+    }
+}
+.EE
+.SS FetchUsers()
+The following trivial program fetches 20 users whos names contain the substring \(dqtaxi\(dq and
+lists out links to their profiles.
+.PP
+.EX
+package main
+
+import (
+    "fmt"
+
+    "github.com/speedrunning/halalruns"
+)
+
+func main() {
+    uf := halalruns.UserFilter{Name: "Taxi"}
+    users, err := halalruns.FetchUsers(uf)
+    if err == nil {
+        fmt.Println("The following profiles are likely bots")
+        for _, u := range(users) {
+            fmt.Println(u.Weblink)
+        }
+    }
+}
+.EE
+.SH SEE ALSO
+.BR UserFilter (3go)
