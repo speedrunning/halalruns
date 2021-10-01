@@ -177,6 +177,9 @@ func paginateUsers(endpoint string, max uint) ([]User, error) {
  * simply calls `halalruns.FetchUsers(uf)` and extracts only the first user.
  */
 func FetchUser(uf UserFilter) (User, error) {
+	/* Avoid unnessesary pagination */
+	uf.Max = 1
+
 	users, err := FetchUsers(uf)
 	if err != nil {
 		return User{}, err

@@ -14,7 +14,7 @@
 .\" LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 .\" OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 .\" PERFORMANCE OF THIS SOFTWARE.
-.TH FETCHUSERS 3go "02 October, 2021" "Halalruns" "Go Programmers Manual"
+.TH FETCHUSERS 3go "01 October, 2021" "Halalruns" "Go Programmers Manual"
 .SH NAME
 FetchUser, FetchUsers \- Fetch speedrun.com users
 .SH SYNOPSIS
@@ -70,6 +70,19 @@ If you try to retrieve more than 200 users in a single call to
 then the funtion will need to perform pagnination.
 Each 200 users you attempt to retrieve in a call will be an additional page that must be dealt with
 and this can have a noticable effect on performance.
+.PP
+The
+.BR FetchUser ()
+function calls the
+.BR FetchUsers ()
+function behind the scenes.
+Before it does this though it first sets the
+.B Max
+field of the passed
+.B UserFilter
+to 1 to avoid unnecessary pagination.
+This change is local to the function and as such will have no affect on your program besides not
+requiring you to set the max manually.
 .SH EXAMPLES
 .SS FetchUser()
 The following trivial program fetches the user with the username \(dqAnInternetTroll\(dq and prints
