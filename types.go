@@ -63,13 +63,13 @@ type User struct {
 			} `json:"names"`
 		} `json:"country"`
 		/* The users region */
-		Country struct {
-			/* The countries ISO 3166-1 alpha-2 country code */
+		Region struct {
+			/* The regions code and the countries ISO 3166-1 alpha-2 country code */
 			Code  string `json:"code"`
 			Names struct {
-				/* The countries name */
+				/* The regions name */
 				International string `json:"international"`
-				/* The countires name in Japanese, this is deprecated. */
+				/* The regions name in Japanese, this is deprecated. */
 				Japanese string `json:"japanese"`
 			} `json:"names"`
 		} `json:"region"`
