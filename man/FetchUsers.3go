@@ -52,8 +52,9 @@ The
 function returns a tuple containing a
 .B User
 struct and an error.
-If the error is not nil then the retrieved user will be nil and the error should be handled.
-If the user is not nil then the error will be nil (i.e. there is no error).
+If the error is not nil then the retrieved user will have all fields set to their zero\-value and
+the error should be handled.
+If the error is nil (i.e. there is no error) then the returned user will have its fields filled out.
 .PP
 The
 .BR FetchUsers ()
@@ -61,7 +62,8 @@ function returns a tuple containing a slice of
 .B User
 structs and an error.
 If the error is not nil then the retrieved user slice will be nil and the error should be handled.
-If the user slice is not nil then the error will be nil (i.e. there is no error).
+If the error is nil (i.e. there is no error) then the returned user slice will contain the requested
+users.
 .SH NOTES
 If you try to retrieve more than 200 users in a single call to
 .BR FetchUsers ()
