@@ -6,7 +6,7 @@ About
 -----
 
 Halalruns is a library for interfacing with the `speedrun.com <https://www.speedrun.com>`_ API. For
-more information about the API, check out the official (and outdated) API documentation of their
+more information about the API, check out the official (and outdated) API documentation on their
 `GitHub page <https://www.github.com/speedruncomorg/api>`_. The aim of Halalruns is to leverage
 golangs easy to use concurrency to create a library that is both fast and easy to use.
 
