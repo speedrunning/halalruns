@@ -34,15 +34,22 @@ type User struct {
 	Pronouns string `json:"pronouns"`
 	/* A link to the users profile */
 	Weblink string `json:"weblink"`
-	/* The style of the users name */
+	/* The style and colors of the users name */
 	NameStyle struct {
+		/* The style type of the users name */
 		Style     string `json:"style"`
+		/* The starting gradient color */
 		ColorFrom struct {
+			/* The light version of the color */
 			Light string `json:"light"`
+			/* The dark version of the color */
 			Dark  string `json:"dark"`
 		} `json:"color-from"`
+		/* The ending gradient color */
 		ColorTo struct {
+			/* The light version of the color */
 			Light string `json:"light"`
+			/* The dark version of the color */
 			Dark  string `json:"dark"`
 		} `json:"color-to"`
 	} `json:"name-style"`
