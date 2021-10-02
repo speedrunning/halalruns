@@ -61,6 +61,7 @@ type User struct {
 			Dark string `json:"dark"`
 		} `json:"color-to"`
 	} `json:"name-style"`
+	/* The users role */
 	Role string `json:"role"`
 	/* The time the user signed up to the site */
 	Signup time.Time `json:"signup"`
@@ -70,10 +71,11 @@ type User struct {
 		Country struct {
 			/* The countries ISO 3166-1 alpha-2 country code */
 			Code  string `json:"code"`
+			/* The countries name */
 			Names struct {
-				/* The countries name */
+				/* The countries name in english */
 				International string `json:"international"`
-				/* The countries name in Japanese, this is deprecated. */
+				/* The countries name in japanese, this is deprecated. */
 				Japanese string `json:"japanese"`
 			} `json:"names"`
 		} `json:"country"`
@@ -81,10 +83,11 @@ type User struct {
 		Region struct {
 			/* The regions code and the countries ISO 3166-1 alpha-2 country code */
 			Code  string `json:"code"`
+			/* The regions name */
 			Names struct {
-				/* The regions name */
+				/* The regions name in english */
 				International string `json:"international"`
-				/* The regions name in Japanese, this is deprecated. */
+				/* The regions name in japanese, this is deprecated. */
 				Japanese string `json:"japanese"`
 			} `json:"names"`
 		} `json:"region"`
