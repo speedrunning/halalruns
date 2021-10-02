@@ -16,7 +16,7 @@
 .\" PERFORMANCE OF THIS SOFTWARE.
 .TH FETCHUSERS 3go "01 October, 2021" "Halalruns" "Go Programmers Manual"
 .SH NAME
-FetchUser, FetchUsers \- Fetch speedrun.com users
+.BR "FetchUser" ", " "FetchUsers" " \- fetch speedrun.com users"
 .SH SYNOPSIS
 .nf
 .B import \(dqgithub.com/speedrunning/halalruns\(dq
