@@ -130,3 +130,164 @@ type User struct {
 	/* Various links related to the user */
 	Links []Link `json:"links"`
 }
+
+type Run struct {
+	ID       string `json:"id"`
+	Weblink  string `json:"weblink"`
+	Game     string `json:"game"`
+	Level    string `json:"level"`
+	Category string `json:"category"`
+	Videos   struct {
+		Text  string `json:"text"`
+		Links []struct {
+			URI string `json:"uri"`
+		} `json:"links"`
+	} `json:"videos"`
+	Comment string `json:"comment"`
+	Status  struct {
+		Status     string    `json:"status"`
+		Examiner   string    `json:"examiner"`
+		VerifyDate time.Time `json:"verify-date"`
+	} `json:"status"`
+	Players []struct {
+		Rel  string `json:"rel"`
+		ID   string `json:"id"`
+		Name string `json:"name"`
+		URI  string `json:"uri"`
+	} `json:"players"`
+	Date      string    `json:"date"`
+	Submitted time.Time `json:"submitted"`
+	Times     struct {
+		Primary          string  `json:"primary"`
+		PrimaryT         float64 `json:"primary_t"`
+		Realtime         string  `json:"realtime"`
+		RealtimeT        float64 `json:"realtime_t"`
+		RealtimeNoloads  string  `json:"realtime_noloads"`
+		RealtimeNoloadsT float64 `json:"realtime_noloads_t"`
+		Ingame           string  `json:"ingame"`
+		IngameT          float64 `json:"ingame_t"`
+	} `json:"times"`
+	System struct {
+		Platform string `json:"platform"`
+		Emulated bool   `json:"emulated"`
+		Region   string `json:"region"`
+	} `json:"system"`
+	Splits Link              `json:"splits"`
+	Values map[string]string `json:"values"`
+	Links  []Link            `json:"links"`
+}
+
+type Game struct {
+	ID    string `json:"id"`
+	Names struct {
+		International string `json:"international"`
+		Japanese      string `json:"japanese"`
+		Twitch        string `json:"twitch"`
+	} `json:"names"`
+	Abbreviation string `json:"abbreviation"`
+	Weblink      string `json:"weblink"`
+	Released     uint   `json:"released"`
+	ReleaseDate  string `json:"realease-date"`
+	Ruleset      struct {
+		ShowMilliseconds    bool     `json:"show-milliseconds"`
+		RequireVerification bool     `json:"require-verification"`
+		RequireVideo        bool     `json:"require-video"`
+		RunTimes            []string `json:"run-times"`
+		DefaultTime         string   `json:"default-time"`
+		EmulatorsAllowed    bool     `json:"emulators-allowed"`
+	} `json:"ruleset"`
+	Romhack    bool              `json:"romhack"`
+	Gametypes  []string          `json:"gametypes"`
+	Platforms  []string          `json:"platforms"`
+	Regions    []string          `json:"regions"`
+	Genres     []string          `json:"genres"`
+	Engines    []string          `json:"engines"`
+	Developers []string          `json:"developers"`
+	Publishers []string          `json:"publishers"`
+	Moderators map[string]string `json:"moderators"`
+	Created    time.Time         `json:"created"`
+	Assets     struct {
+		Logo struct {
+			URI string `json:"uri"`
+		} `json:"logo"`
+		CoverTiny struct {
+			URI string `json:"uri"`
+		} `json:"cover-tiny"`
+		CoverSmall struct {
+			URI string `json:"uri"`
+		} `json:"cover-small"`
+		CoverMedium struct {
+			URI string `json:"uri"`
+		} `json:"cover-medium"`
+		CoverLarge struct {
+			URI string `json:"uri"`
+		} `json:"cover-large"`
+		Icon struct {
+			URI string `json:"uri"`
+		} `json:"icon"`
+		Trophy1st struct {
+			URI string `json:"uri"`
+		} `json:"trophy-1st"`
+		Trophy2nd struct {
+			URI string `json:"uri"`
+		} `json:"trophy-2nd"`
+		Trophy3rd struct {
+			URI string `json:"uri"`
+		} `json:"trophy-3rd"`
+		Trophy4th struct {
+			URI string `json:"uri"`
+		} `json:"trophy-4th"`
+		Background struct {
+			URI string `json:"uri"`
+		} `json:"background"`
+		Foreground struct {
+			URI string `json:"uri"`
+		} `json:"foreground"`
+	} `json:"assets"`
+	Links []Link `json:"links"`
+}
+
+type Category struct {
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Weblink string `json:"weblink"`
+	Type    string `json:"type"`
+	Rules   string `json:"rules"`
+	Players struct {
+		Type  string `json:"type"`
+		Value uint   `json:"value"`
+	} `json:"players"`
+	Miscellaneous bool   `json:"miscellaneous"`
+	Links         []Link `json:"links"`
+}
+
+type Level struct {
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Weblink string `json:"weblink"`
+	Rules   string `json:"rules"`
+	Links   []Link `json:"links"`
+}
+
+type Region struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Links []Link `json:"links"`
+}
+
+type Platform struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Released uint   `json:"released"`
+	Links    []Link `json:"links"`
+}
+
+type PersonalBest struct {
+	Place    uint     `json:"place"`
+	Run      Run      `json:"run"`
+	Game     Game     `json:"game"`
+	Category Category `json:"category"`
+	Level    Level    `json:"level"`
+	Region   Region   `json:"region"`
+	Platform Platform `json:"platform"`
+}

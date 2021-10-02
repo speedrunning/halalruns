@@ -99,7 +99,7 @@ type PBFilter struct {
 	/* Return only PBs whos position is greater than or equal to this value. For example,
 	 * `halalruns.PBFilter{Top: 3}` will return all of a users top-3 runs.
 	 */
-	Top uint
+	Top int
 
 	/* Return only PBs from games or romhacks in the specified series. This can be either the ID
 	 * of a series, or the series abbreviation.
@@ -110,6 +110,12 @@ type PBFilter struct {
 	 * games abbreviation.
 	 */
 	Game string
+
+	/* Embed the specified fields into each personal best. The embeds need to be specified the
+	 * same way they are specified in the GET request URI. Read the official documentation for
+	 * more info.
+	 */
+	Embeds string
 }
 
 func paginateUsers(endpoint string, max int) ([]User, error) {
@@ -246,4 +252,67 @@ func FetchUsers(uf UserFilter) ([]User, error) {
 		return nil, err
 	}
 	return users, nil
+}
+
+/* PersonalBests fetches all of users personal bests which can be filtered via the given `PBFilter`
+ * struct. If you do not want to apply any filters you can pass `nil` in place of the filter.
+ */
+func (u User) PersonalBests(pbf PBFilter) ([]PersonalBest, error) {
+	endpoint := "/users/" + u.ID + "/personal-bests?"
+
+	if pbf != nil {
+		if pbf.Game != "" {
+			endpoint += "&game=" + pbf.Game
+		}
+		if pbf.Series != "" {
+			endpoint += "&series=" + pbf.Series
+		}
+		if pbf.Top != 0 {
+			endpoint += "&top=" + strconv.Itoa(pbf.Top)
+		}
+		if pbf.Embeds != "" {
+			endpoint += "&embed=" + pbf.Embeds
+		}
+	}
+
+	/* speedrun.com is pretty retarded, so lets make the interface less retarded for the user */
+	var runs struct {
+		Data []struct {
+			Place uint `json:"place"`
+			Run   Run  `json:"run"`
+			Game  struct {
+				Data Game `json:"data"`
+			} `json:"game"`
+			Category struct {
+				Data Category `json:"data"`
+			} `json:"category"`
+			Level struct {
+				Data Level `json:"data"`
+			} `json:"level"`
+			Region struct {
+				Data Region `json:"data"`
+			} `json:"region"`
+			Platform struct {
+				Data Platform `json:"data"`
+			} `json:"platform"`
+		} `json:"data"`
+	}
+	err := requestAndUnmarshall(endpoint, &runs)
+	if err != nil {
+		return nil, err
+	}
+	finalRuns := make([]PersonalBest, len(runs.Data))
+	for i, r := range runs.Data {
+		finalRuns[i] = PersonalBest{
+			Place:    r.Place,
+			Run:      r.Run,
+			Game:     r.Game.Data,
+			Category: r.Category.Data,
+			Level:    r.Level.Data,
+			Region:   r.Region.Data,
+			Platform: r.Platform.Data,
+		}
+	}
+
+	return finalRuns, nil
 }
