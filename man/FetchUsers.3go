@@ -52,8 +52,8 @@ The
 function returns a tuple containing a
 .B User
 struct and an error.
-If the error is not nil then the retrieved user will have all fields set to their zero\-value and
-the error should be handled.
+If the error is not nil then the retrieved user will have all fields set to their zero-value and the
+error should be handled.
 If the error is nil (i.e. there is no error) then the returned user will have its fields filled out.
 .PP
 The
