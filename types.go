@@ -19,6 +19,14 @@ package halalruns
 
 import "time"
 
+/* A link to another page */
+type Link struct {
+	/* The name of the page */
+	Rel string `json:"rel"`
+	/* The URI to the page */
+	URI string `json:"uri"`
+}
+
 /* User struct representing a speedrun.com user */
 type User struct {
 	/* The users user ID */
@@ -120,10 +128,5 @@ type User struct {
 		} `json:"image"`
 	} `json:"assets"`
 	/* Various links related to the user */
-	Links []struct {
-		/* The name of the data the link points to */
-		Rel string `json:"rel"`
-		/* The link */
-		URI string `json:"uri"`
-	} `json:"links"`
+	Links []Link `json:"links"`
 }
