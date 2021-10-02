@@ -283,11 +283,11 @@ type Platform struct {
 }
 
 type PersonalBest struct {
-	Place    uint     `json:"place"`
-	Run      Run      `json:"run"`
-	Game     Game     `json:"game"`
-	Category Category `json:"category"`
-	Level    Level    `json:"level"`
-	Region   Region   `json:"region"`
-	Platform Platform `json:"platform"`
+	Place    uint
+	Run      Run
+	Game     Game
+	Category Category
+	Level    Level
+	Region   Region
+	Platform Platform
 }
