@@ -79,7 +79,7 @@ type UserFilter struct {
 	Speedrunslive string
 
 	/* The maximum number of users to return, by default this is 20. */
-	Max uint
+	Max int
 
 	/* How to order the users being searched for, this can be either by international name,
 	 * japanese name, signup date, or role.
@@ -112,7 +112,7 @@ type PBFilter struct {
 	Game string
 }
 
-func paginateUsers(endpoint string, max uint) ([]User, error) {
+func paginateUsers(endpoint string, max int) ([]User, error) {
 	/* If we can do this all in one request, just do that */
 	if max <= maxRequestSize {
 		var u struct {
@@ -126,18 +126,17 @@ func paginateUsers(endpoint string, max uint) ([]User, error) {
 	}
 
 	/* If we need multiple requests, we do them concurrently */
-	var i uint64
 	var err error
 	var mx sync.Mutex
 	var wg sync.WaitGroup
 	allData := []User{}
-	count := uint64(math.Ceil(float64(max) / float64(maxRequestSize)))
+	count := int(math.Ceil(float64(max) / float64(maxRequestSize)))
 
-	for i = 0; i < count; i++ {
+	for i := 0; i < count; i++ {
 		wg.Add(1)
 
 		/* `i` is passed as a parameter to avoid a potential race condition */
-		go func(n uint64) {
+		go func(n int) {
 			defer wg.Done()
 			n *= maxRequestSize
 
@@ -148,8 +147,7 @@ func paginateUsers(endpoint string, max uint) ([]User, error) {
 				} `json:"pagination"`
 			}
 
-			localErr := requestAndUnmarshall(endpoint+"&offset="+
-				strconv.FormatUint(n, 10), &o)
+			localErr := requestAndUnmarshall(endpoint+"&offset="+strconv.Itoa(n), &o)
 			if localErr != nil {
 				err = localErr
 			}
@@ -167,7 +165,7 @@ func paginateUsers(endpoint string, max uint) ([]User, error) {
 	}
 
 	/* Return only the amount of users requested */
-	if uint(len(allData)) <= max {
+	if len(allData) <= max {
 		return allData, nil
 	}
 	return allData[:max], nil
@@ -222,7 +220,7 @@ func FetchUsers(uf UserFilter) ([]User, error) {
 		endpoint += "&speedrunslive=" + uf.Speedrunslive
 	}
 	if uf.Max != 0 {
-		endpoint += "&max=" + strconv.FormatUint(uint64(uf.Max), 10)
+		endpoint += "&max=" + strconv.Itoa(uf.Max)
 	}
 
 	switch uf.OrderBy {
