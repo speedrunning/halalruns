@@ -4,7 +4,7 @@ MANDIR	= /usr/share/man/man3
 
 all:
 
-.PHONY: check format
+.PHONY: check docs format
 check:
 	revive -formatter stylish *.go
 
