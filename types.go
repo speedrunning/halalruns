@@ -46,14 +46,21 @@ type User struct {
 	NameStyle struct {
 		/* The style type of the users name */
 		Style string `json:"style"`
-		/* The starting gradient color */
+		/* The color of the users name (only applies when Style == "solid") */
+		Color struct {
+			/* The light version of the color */
+			Light string `json:"light"`
+			/* The dark version of the color */
+			Dark string `json:"dark"`
+		} `json:"color"`
+		/* The starting gradient color (only applies when Style == "gradient") */
 		ColorFrom struct {
 			/* The light version of the color */
 			Light string `json:"light"`
 			/* The dark version of the color */
 			Dark string `json:"dark"`
 		} `json:"color-from"`
-		/* The ending gradient color */
+		/* The ending gradient color (only applies when Style == "gradient") */
 		ColorTo struct {
 			/* The light version of the color */
 			Light string `json:"light"`
