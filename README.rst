@@ -17,7 +17,7 @@ Documentation
 -------------
 
 All functions, methods, structs, etc. provided by the library are documented in the form of UNIX
-manual pages. These can be found in the ``man/`` directory in the repository. To install the manual
+manual pages. These can be found in the `man/`_ directory in the repository. To install the manual
 pages simply run the command ``make docs`` with root permissions. Once this is done you should be
 able to view the documentation for any part of the library by running the command ``man <TERM>``
 where ``TERM`` is a function, method, struct, etc. For example, to view the documentation for the
@@ -26,6 +26,8 @@ circumstance that a manual page name conflicts with an existing manual on your s
 provide the ``3go`` section to the ``man`` command by running ``man 3go <TERM>``.
 
 If you are on Windows, well that's kind of unfortunate. Just get WSL lol.
+
+.. _man/: man/
 
 
 Example Usage
@@ -62,5 +64,7 @@ error checking.
 License
 -------
 
-Halalruns is licensed under the **BSD Zero Clause License**. In simple terms this means you can do
+Halalruns is licensed under the `BSD Zero Clause License`_. In simple terms this means you can do
 whatever the hell you want with the code in this repo.
+
+.. _BSD Zero Clause License: LICENSE
