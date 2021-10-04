@@ -5,11 +5,13 @@ Halalruns
 About
 -----
 
-Halalruns is a library for interfacing with the `speedrun.com <https://www.speedrun.com>`_ API. For
-more information about the API, check out the official (and outdated) API documentation on their
-`GitHub page <https://www.github.com/speedruncomorg/api>`_. The aim of Halalruns is to leverage
-golangs easy to use concurrency to create a library that is both fast and easy to use.
+Halalruns is a library for interfacing with the speedrun.com_ API. For more information about the
+API, check out the official (and outdated) `API documentation`_ on their GitHub page. The aim of
+Halalruns is to leverage golangs easy to use concurrency to create a library that is both fast and
+easy to use.
 
+.. _speedrun.com: https://www.speedrun.com
+.. _API documentation: https://www.github.com/speedruncomorg/api
 
 Documentation
 -------------
@@ -19,9 +21,9 @@ manual pages. These can be found in the ``man/`` directory in the repository. To
 pages simply run the command ``make docs`` with root permissions. Once this is done you should be
 able to view the documentation for any part of the library by running the command ``man <TERM>``
 where ``TERM`` is a function, method, struct, etc. For example, to view the documentation for the
-``FetchUser`` function you can run the command ``man FetchUser``. In the extremely rare circumstance
-that a manual page name conflicts with an existing manual on your system, simply provide the ``3go``
-section to the ``man`` command by running ``man 3go <TERM>``.
+``FetchUser`` function you can run the command ``man FetchUser``. In the extremely rare
+circumstance that a manual page name conflicts with an existing manual on your system, simply
+provide the ``3go`` section to the ``man`` command by running ``man 3go <TERM>``.
 
 If you are on Windows, well that's kind of unfortunate. Just get WSL lol.
 
@@ -31,9 +33,9 @@ Example Usage
 
 Here is an example program which takes a keyword as a command line argument and prints links to the
 first 400 users that match the keyword. This could be useful for finding bots to report in the
-`Bots Deletion Thread <https://www.speedrun.com/the_site/thread/7p1bg>`_. The number 400 is used
-simply to show how the user does not need to worry about manual pagination. If you want to use this
-as a real application you should probably add in error checking.
+`Bots Deletion Thread`_. The number 400 is used simply to show how the user does not need to worry
+about manual pagination. If you want to use this as a real application you should probably add in
+error checking.
 
 .. code-block:: go
 
@@ -55,6 +57,7 @@ as a real application you should probably add in error checking.
                 }
         }
 
+.. _Bots Deletion Thread: https://www.speedrun.com/the_site/thread/7p1bg
 
 License
 -------
