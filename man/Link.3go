@@ -14,6 +14,7 @@
 .\" LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 .\" OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 .\" PERFORMANCE OF THIS SOFTWARE.
+.so macros.tmac
 .TH LINK 3go "02 October, 2021" Halalruns "Go Programmers Manual"
 .SH NAME
 .BR Link " \- a link to a webpage"
@@ -34,13 +35,11 @@ This can range from anything to a users personal bests stored in a
 struct to a runs splits on splits.io.
 .PP
 The structs fields are as follows:
-.TP
-.I Rel
+.LI Rel
 The name of the resource that the link points to.
 For example, perhaps the link will point you to a users runs.
 In that case this field may be set to \(dqruns\(dq
-.TP
-.I URI
+.LI URI
 The URI of the external resource.
 For example, the
 .B User

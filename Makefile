@@ -9,11 +9,15 @@ check:
 	revive -formatter stylish *.go
 
 docs:
+	sed '1,/^$$/d' man/macros.tmac >tmp.tmac
 	>/dev/null command -v gzip && has_gzip=true || has_gzip=false; \
-	for manpage in man/*; do \
-		$$has_gzip && gzip -c9 $$manpage >${MANDIR}/$${manpage##*/}.gz || \
-		cp $$manpage ${MANDIR}/; \
+	for manpage in man/*.3go; do \
+		>tmp.3go sed -n -e '/^\.\s*so\s\s*macros\.tmac$$/! {p; d}' \
+				-e 'r tmp.tmac' <$$manpage; \
+		$$has_gzip && gzip -c9 tmp.3go >${MANDIR}/$${manpage##*/}.gz || \
+		cp tmp.3go ${MANDIR}/; \
 	done
+	rm tmp.3go tmp.tmac
 
 format:
 	gofmt -w *.go
