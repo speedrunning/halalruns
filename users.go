@@ -316,3 +316,20 @@ func (u User) PersonalBests(pbf PBFilter) ([]PersonalBest, error) {
 
 	return finalRuns, nil
 }
+
+/* WorldRecords fetches all of users world records. This function does not accept a `PBFilter`. If
+ * you want to filter specific WRs you are better off using `User.PersonalBests()`.
+ */
+func (u User) WorldRecords() ([]PersonalBest, error) {
+	pbs, err := u.PersonalBests(PBFilter{Top: 1})
+	return pbs, err
+}
+
+/* Podiums fetches all of users podium runs. A podium run is any top-3 run. This function does not
+ * accept a `PBFilter`. If you want to filter specific WRs you are better off using
+ * `User.PersonalBests()`.
+ */
+func (u User) Podiums() ([]PersonalBest, error) {
+	pbs, err := u.PersonalBests(PBFilter{Top: 3})
+	return pbs, err
+}
