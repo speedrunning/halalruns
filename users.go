@@ -260,7 +260,7 @@ func FetchUsers(uf UserFilter) ([]User, error) {
 func (u User) PersonalBests(pbf PBFilter) ([]PersonalBest, error) {
 	endpoint := "/users/" + u.ID + "/personal-bests?"
 
-	if pbf != nil {
+	if pbf != (PBFilter{}) {
 		if pbf.Game != "" {
 			endpoint += "&game=" + pbf.Game
 		}
