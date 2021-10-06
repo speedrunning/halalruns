@@ -134,7 +134,7 @@ func main() {
 }
 .EE
 .SH SEE ALSO
-.BR FetchUser (3go) ,
-.BR PBFilter (3go) ,
-.BR PersonalBest (3go) ,
+.BR FetchUser (3go),
+.BR PBFilter (3go),
+.BR PersonalBest (3go),
 .BR User (3go)
