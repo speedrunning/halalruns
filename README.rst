@@ -1,3 +1,5 @@
+.. vi: set tw=100:
+
 Halalruns
 =========
 
