@@ -1,0 +1,141 @@
+.\" vi: ft=nroff tw=100
+.\"
+.\" BSD Zero Clause License
+.\" 
+.\" Copyright (c) 2021 Thomas Voss
+.\" 
+.\" Permission to use, copy, modify, and/or distribute this software for any
+.\" purpose with or without fee is hereby granted.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+.\" REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+.\" AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+.\" INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+.\" LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+.\" OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+.\" PERFORMANCE OF THIS SOFTWARE.
+.TH USER.PERSONALBESTS 3go "06 October, 2021" Halalruns "Go Programmers Manual"
+.SH NAME
+.BR User.PersonalBests ", " User.Podiums ", " User.WorldRecords
+\- fetch a speedrun.com users personal bests
+.SH SYNOPSIS
+.nf
+.B import \(dqgithub.com/speedrunning/halalruns\(dq
+.PP
+.BI "func (" u " User) PersonalBests(" pbf " PBFilter) ([]PersonalBest, error)"
+.BI "func (" u " User) Podiums() ([]PersonalBest, error)"
+.BI "func (" u " User) WorldRecords() ([]PersonalBest, error)"
+.fi
+.SH DESCRIPTION
+The
+.BR PersonalBests ()
+method returns a slice containing the personal best runs of the user
+.IR u .
+For more information on the
+.B User
+struct, see the
+.BR User (3go)
+manual page.
+If you want to retrieve only the personal bests that fit a certain criteria such as retrieving only
+runs from a specific game, you can set the options in
+.IR pbf .
+For more information on
+.I pbf
+and the
+.B PBFilter
+struct, see the
+.BR PBFilter(3go)
+manual page.
+The
+.BR Podiums ()
+method is a synonym for
+.BI User.PersonalBests( "PBFilter{Top: 3}" )
+and can be used to return all of a users top\-3 times.
+Likewise, the
+.BR WorldRecords ()
+method is simply a synonym for
+.BI User.PersonalBests( "PBFilter{Top: 1}" ) \fR.
+Unlike the
+.BR PersonalBests ()
+method, the
+.BR Podiums ()
+and
+.BR WorldRecords ()
+methods don\(aqt accept a
+.B PBFilter
+struct as an argument.
+If you would like to get filtered world records or podium times, you should call the
+.BR PersonalBests ()
+method instead.
+.SH RETURN VALUE
+The
+.BR PersonalBests ()
+method returns a tuple containing a slice of
+.B PersonalBest
+structs and an error.
+If the error is not nil then the returned 
+.B PersonalBest
+slice will be nil and the error should be handled.
+If the error is nil (i.e. there is no error) then the returned slice will have all the users
+requested personal bests.
+.PP
+The
+.BR Podiums ()
+and
+.BR WorldRecords ()
+methods have the same return values as the
+.BR PersonalBests ()
+method.
+.SH EXAMPLES
+.SS User.PersonalBests()
+The following trivial program prints out the average placement of a users personal bests.
+.PP
+.EX
+package main
+
+import (
+    "fmt"
+
+    "github.com/speedrunning/halalruns"
+)
+
+func main() {
+    uf := halalruns.UserFilter{Lookup: "AnInternetTroll"}
+    user, err := halalruns.FetchUser(uf)
+    if err == nil {
+        pbs, _ := user.PersonalBests(halalruns.PBFilter{})
+        var average uint
+        for _, pb := range pbs {
+            average += pb.Place
+        }
+        fmt.Println(average / uint(len(pbs)))
+    }
+}
+.EE
+.SS User.WorldRecords()
+The following trivial program prints out links to all of a users world record runs.
+.PP
+.EX
+package main
+
+import (
+    "fmt"
+
+    "github.com/speedrunning/halalruns"
+)
+
+func main() {
+    uf := halalruns.UserFilter{Lookup: "AnInternetTroll"}
+    user, err := halalruns.FetchUser(uf)
+    if err == nil {
+        wrs, _ := user.WorldRecords()
+        for _, wr := range wrs {
+            fmt.Println(wr.Run.Weblink)
+        }
+    }
+}
+.EE
+.SH SEE ALSO
+.BR PBFilter (3go) ,
+.BR PersonalBest (3go) ,
+.BR User (3go)
