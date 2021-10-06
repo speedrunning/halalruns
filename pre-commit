@@ -18,7 +18,7 @@ s/ 12/ December/
 git status --porcelain | while IFS= read -r file; do
 	first="$(echo "$file" | cut -c 1)"
 	case "$first" in
-	' '|D)
+	' '|D|'?')
 		continue
 		;;
 	*)
