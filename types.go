@@ -77,7 +77,7 @@ type User struct {
 		/* The users country */
 		Country struct {
 			/* The countries ISO 3166-1 alpha-2 country code */
-			Code  string `json:"code"`
+			Code string `json:"code"`
 			/* The countries name */
 			Names struct {
 				/* The countries name in english */
@@ -89,7 +89,7 @@ type User struct {
 		/* The users region */
 		Region struct {
 			/* The regions code and the countries ISO 3166-1 alpha-2 country code */
-			Code  string `json:"code"`
+			Code string `json:"code"`
 			/* The regions name */
 			Names struct {
 				/* The regions name in english */
