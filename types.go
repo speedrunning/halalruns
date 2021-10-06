@@ -19,7 +19,7 @@ package halalruns
 
 import "time"
 
-/* A link to another page */
+/* Link struct representing a link to another page */
 type Link struct {
 	/* The name of the page */
 	Rel string `json:"rel"`
