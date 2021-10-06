@@ -177,18 +177,15 @@ func paginateUsers(endpoint string, max int) ([]User, error) {
 	return allData[:max], nil
 }
 
-/* FetchUser returns a single `User` struct based off of the provided `UserFilter`. This function
- * simply calls `halalruns.FetchUsers(uf)` and extracts only the first user.
+/* FetchUser returns a single `User` struct by searching for a user that matches the name `name`
+ * exactly.
  */
-func FetchUser(uf UserFilter) (User, error) {
-	/* Avoid unnessesary pagination */
-	uf.Max = 1
-
-	users, err := FetchUsers(uf)
+func FetchUser(name string) (User, error) {
+	user, err := FetchUsers(UserFilter{Lookup: name})
 	if err != nil {
 		return User{}, err
 	}
-	return users[0], nil
+	return user[0], nil
 }
 
 /* FetchUsers returns a slice of `User` structs based off of the provided `UserFilter` */

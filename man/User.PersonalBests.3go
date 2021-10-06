@@ -100,8 +100,7 @@ import (
 )
 
 func main() {
-    uf := halalruns.UserFilter{Lookup: "AnInternetTroll"}
-    user, err := halalruns.FetchUser(uf)
+    user, err := halalruns.FetchUser("AnInternetTroll")
     if err == nil {
         pbs, _ := user.PersonalBests(halalruns.PBFilter{})
         var average uint
@@ -125,8 +124,7 @@ import (
 )
 
 func main() {
-    uf := halalruns.UserFilter{Lookup: "AnInternetTroll"}
-    user, err := halalruns.FetchUser(uf)
+    user, err := halalruns.FetchUser("AnInternetTroll")
     if err == nil {
         wrs, _ := user.WorldRecords()
         for _, wr := range wrs {
@@ -136,6 +134,7 @@ func main() {
 }
 .EE
 .SH SEE ALSO
+.BR FetchUser (3go) ,
 .BR PBFilter (3go) ,
 .BR PersonalBest (3go) ,
 .BR User (3go)

@@ -21,7 +21,7 @@
 .nf
 .B import \(dqgithub.com/speedrunning/halalruns\(dq
 .PP
-.BI "func FetchUser(" uf " UserFilter) (User, error)"
+.BI "func FetchUser(" name " string) (User, error)"
 .BI "func FetchUsers(" uf " UserFilter) ([]User, error)"
 .fi
 .SH DESCRIPTION
@@ -44,8 +44,15 @@ function can be used.
 It is equivalent to calling
 .BR FetchUsers ()
 with the filters
-.I Max
-field set to 1.
+.I Lookup
+field set to
+.IR name .
+The
+.BR FetchUser ()
+function exists purely for convenience.
+If you would like to get only a single user but with a more complex filter, you should just call
+.BR FetchUsers ()
+directly.
 .SH RETURN VALUE
 The
 .BR FetchUser ()
@@ -70,19 +77,6 @@ If you try to retrieve more than 200 users in a single call to
 then the funtion will need to perform pagnination.
 Each 200 users you attempt to retrieve in a call will be an additional page that must be dealt with
 and this can have a noticable effect on performance.
-.PP
-The
-.BR FetchUser ()
-function calls the
-.BR FetchUsers ()
-function behind the scenes.
-Before it does this though it first sets the
-.I Max
-field of the passed
-.B UserFilter
-to 1 to avoid unnecessary pagination.
-This change is local to the function and as such will have no affect on your program besides not
-requiring you to set the max manually.
 .SH EXAMPLES
 .SS FetchUser()
 The following trivial program fetches the user with the username \(dqAnInternetTroll\(dq and prints
@@ -98,8 +92,7 @@ import (
 )
 
 func main() {
-    uf := halalruns.UserFilter{Lookup: "AnInternetTroll"}
-    user, err := halalruns.FetchUser(uf)
+    user, err := halalruns.FetchUser("AnInternetTroll")
     if err == nil {
         fmt.Printf("User %s is from %s and has ID %s\en", u.Names.International,
                    u.Location.Country.Names.International, u.ID)
