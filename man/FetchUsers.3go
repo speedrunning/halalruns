@@ -124,7 +124,7 @@ func main() {
     users, err := halalruns.FetchUsers(uf)
     if err == nil {
         fmt.Println("The following profiles are likely bots")
-        for _, u := range(users) {
+        for _, u := range users  {
             fmt.Println(u.Weblink)
         }
     }
