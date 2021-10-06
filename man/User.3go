@@ -1,0 +1,376 @@
+.\" vi: ft=nroff tw=100
+.\"
+.\" BSD Zero Clause License
+.\" 
+.\" Copyright (c) 2021 Thomas Voss
+.\" 
+.\" Permission to use, copy, modify, and/or distribute this software for any
+.\" purpose with or without fee is hereby granted.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+.\" REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+.\" AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+.\" INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+.\" LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+.\" OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+.\" PERFORMANCE OF THIS SOFTWARE.
+.TH USER 3go "06 October, 2021" Halalruns "Go Programmers Manual"
+.so macros.tmac
+.SH NAME
+.BR User " \- a speedrun.com user"
+.SH SYNOPSIS
+.nf
+.B import \(dqgithub.com/speedrunning/halalruns\(dq
+.PP
+.B  "type User struct {"
+.IB "    ID" "    string"
+.IB "    Names" " struct {"
+.IB "        International" " string"
+.IB "        Japanese" "      string"
+.B  "    }"
+.IB "    Pronouns" "  string"
+.IB "    Weblink" "   string"
+.IB "    NameStyle" " struct {"
+.IB "        Style" " string"
+.IB "        Color" " struct {"
+.IB "            Light" " string"
+.IB "            Dark" "  string"
+.B  "        }"
+.IB "        ColorFrom" " struct {"
+.IB "            Light" " string"
+.IB "            Dark" "  string"
+.B  "        }"
+.IB "        ColorTo" " struct {"
+.IB "            Light" " string"
+.IB "            Dark" "  string"
+.B  "        }"
+.B  "    }"
+.IB "    Role" "     string"
+.IB "    Signup" "   time.Time"
+.IB "    Location" " struct {"
+.IB "        Country" " struct {"
+.IB "            Code" "  string"
+.IB "            Names" " struct {"
+.IB "                International" " string"
+.IB "                Japanese" "      string"
+.B  "            }"
+.B  "        }"
+.IB "        Region" " struct {"
+.IB "            Code" "  string"
+.IB "            Names" " struct {"
+.IB "                International" " string"
+.IB "                Japanese" "      string"
+.B  "            }"
+.B  "        }"
+.B  "    }"
+.IB "    Twitch" " struct {"
+.IB "        URI" " string"
+.B  "    }"
+.IB "    Hitbox" " struct {"
+.IB "        URI" " string"
+.B  "    }"
+.IB "    YouTube" " struct {"
+.IB "        URI" " string"
+.B  "    }"
+.IB "    Twitter" " struct {"
+.IB "        URI" " string"
+.B  "    }"
+.IB "    SpeedRunsLive" " struct {"
+.IB "        URI" " string"
+.B  "    }"
+.IB "    Assets" " struct {"
+.IB "        Icon" " struct {"
+.IB "            URI" " string"
+.B  "        }"
+.IB "        Image" " struct {"
+.IB "            URI" " string"
+.B  "        }"
+.B  "    }"
+.IB "    Links" " []Link"
+.B  "}"
+.SH DESCRIPTION
+The
+.B User
+struct is a representation of a speedrun.com user.
+A user is any registered account, meaning that a guest user cannot be represented by this struct.
+.PP
+The structs fields are as follows:
+.LI ID
+This is the users user ID.
+The main role of the user ID is to serve as a unique identifier for any user when performing various
+activities through the speedrun.com API such as fetching a users runs.
+Unlike a users username, the ID never changes.
+This means that if you want to have some sort of user database it may be wise to store IDs instead
+of usernames.
+.LI Names
+This is a struct consisting of two fields which represent the users name on the site.
+
+These fields are as follows:
+.II
+.LI International
+This is the users username as seen on site forums, on a users profile, etc.
+This is the username with which a user registered their account with.
+A users username can be changed so writing code that depends on a users name not changing is highly
+discouraged.
+Almost all accounts created post ELO\(aqs aquisition of speedrun.com are between 4 to 20 (inclusive)
+characters in length, however many older accounts exist with lengths 1 to 3.
+Additionally there exists a bug which allows for usernames of lengths above 20 characters, so be
+careful when writing code which requires username length to be within certain boundaries.
+.LI Japanese
+This is a users japanese name.
+Japanese names are deprecated and no users have yet been found with a japanese name, so you can
+safely ignore this field.
+.DI
+.LI Pronouns
+This is the users pronouns as set in their account settings.
+There are 3 possible sets of pronouns and those are \(dqHe/Him\(dq, \(dqShe/Her\(dq, and
+\(dqThey/Them\(dq.
+A user can have anywhere from 0 to 3 sets of pronouns, where no two pronouns can be the same.
+In the case that a user has multiple sets of pronouns, the pronouns will be seperated by the string
+\(dq, \(dq.
+For example, one user may have \(dqHe/Him\(dq as their pronouns while another may have \(dqHe/Him,
+They/Them\(dq.
+When a user has multiple sets of pronouns they wll always be in the same order as described above.
+.LI Weblink
+This is an https URI to the users profile.
+The URI is always in the form
+.RI \(dqhttps://www.speedrun.com/User/< User.Names.International >(dq.
+.LI NameStyle
+This is a struct consisting of a users username style and the colors used in the users username.
+
+The fields are as follows:
+.II
+.LI Style
+This is the style of the users username.
+The two possible values for this are \(dqsolid\(dq and \(dqgradient\(dq.
+Some old users may still have a name style of solid, however almost all users now have a style of
+gradient.
+.LI Color
+This is a struct consisting of the colors in a users username.
+This struct only applies to users who have a name style of solid.
+
+The fields are as follows:
+.II
+.LI Light
+The light version of the users name color.
+This is given in the form of a 6 digit hexcode prefixed with a \(aq#\(aq using capital letters.
+For example, a users light name color might be \(dq#4646CE\(dq.
+.LI Dark
+The dark version of the users name color.
+This is given in the form of a 6 digit hexcode prefixed with a \(aq#\(aq using capital letters.
+For example, a users dark name color might be \(dq#6666EE\(dq.
+.DI
+.LI ColorFrom
+This is a struct consisting of the starting colors in a users username.
+This struct only applies to users who have a name style of gradient.
+
+The fields are as follows:
+.II
+.LI Light
+Refer to the
+.I Light
+field of
+.IR User.NameStyle.Color .
+.LI Dark
+Refer to the
+.I Dark
+field of
+.IR User.NameStyle.Color .
+.DI
+.LI ColorTo
+This is a struct consisting of the ending colors in a users username.
+This struct only applies to users who have a name style of gradient.
+
+The fields are as follows:
+.II
+.LI Light
+Refer to the
+.I Light
+field of
+.IR User.NameStyle.Color .
+.LI Dark
+Refer to the
+.I Dark
+field of
+.IR User.NameStyle.Color .
+.ZI
+.LI Role
+This is the users role on the site.
+It can be one of three values, which are \(dqbanned\(dq, \(dquser\(dq, and \(dqadmin\(dq.
+A banned user is a user who has had their permissions on the site restricted.
+This includes but is not limited to not being able to submit runs and not being able to make forum
+posts.
+A user with the role of admin is any employee of ELO.
+These users have elevated privileges and can do things such as ban other users and moderate the site
+forums.
+All regular users have the role of user.
+There also exist the \(dqtrusted\(dq, \(dqmoderator\(dq, and \(dqprogrammer\(dq roles, but these are
+no longer used.
+.LI Signup
+This is the time at which a user created their account.
+While it is extremely rare, this value may not be set for very old accounts.
+.LI Location
+This is a struct consisting of the country and region from which a user is from.
+It is possible that a user will not have a location set.
+
+The fields are as follows:
+.II
+.LI Country
+This is a struct consisting of the code and name of the users country.
+
+The fields are as follows:
+.II
+.LI Code
+This is the ISO 3166-1 alpha-2 country code of the users country.
+This field is always in lowercase letters.
+Along with the regular countries included as part of ISO 3166-1, this field can also be \(dqeu\(dq
+for the European Union, \(dquk\(dq for the United Kingdom, \(dqeo\(dq for Esperanto, and \(dqvh\(dq
+for Valhalla.
+Finally, there is also support for ISO 3166-2 (GB) codes for England, Northern Ireland, Scotland,
+and Wales.
+These codes are \(dqgb/eng\(dq, \(dqgb/nir\(dq, \(dqgb/sct\(dq, and \(dqgb/wls\(dq respectively.
+.LI Names
+This is a struct consisting of the international and japanese names of the users country.
+
+The fields are as follows:
+.II
+.LI International
+This is the countries name in english.
+The international name uses proper capitalization.
+It should be noted that the USA is refered to as \(dqUnited States\(dq instead of \(dqUnited States
+of America\(dq.
+.LI Japanese
+This is the countries japanese name.
+Japanese names are deprecated and no countries currently have a japanese name, so you can safely
+ignore this field.
+.ZI
+.LI Region
+This is a struct consisting of the code and name of the users region.
+Regions work similarly to countries but are more specific.
+
+The fields are as follows:
+.II
+.LI Code
+This is the code for the users region.
+Region codes are in the format
+.RI \(dq User.Location.Country.Code "/<REGION CODE>\(dq."
+For example, someone from Rio de Janeiro, Brazil would have the region code \(dqbr/rj\(dq.
+.LI Names
+.II
+.LI International
+This is the regions name in english.
+The region name uses proper capitalization, and is in the form \(dq<REGION>, <COUNTRY>\(dq.
+It should be noted that the country name is not always the same as
+.IR User.Location.Country.Names.International .
+For example, someone from New Jersey may have a country field of \(dqUnited States\(dq but their
+region field would be \(dqNew Jersey, USA\(dq.
+.LI Japanese
+Refer to the
+.I Japanese
+field of
+.I User.Location.Country.Names
+but swap out \(dqcountries\(dq for \(dqregions\(dq.
+.ZI
+.LI Twitch
+This is a struct consisting of a URI to the users Twitch account.
+It is possible that a user will not have a twitch channel.
+
+The fields are as follows:
+.II
+.LI URI
+This is a link to the users Twitch channel.
+It is always in the form \(dqhttps://www.twitch.tv/<CHANNEL NAME>\(dq.
+It should be noted that there is no guarantee that the channel actually exists.
+.DI
+.LI Hitbox
+This is a struct consisting of a URI to the users Hitbox account.
+It is possible that a user will not have a twitch channel.
+
+The fields are as follows:
+.II
+.LI URI
+This is a link to the users Hitbox channel.
+The exact form of the URI is not known, as I have not yet found a user with a Hitbox account linked.
+It should be noted that there is no guarantee that the channel actually exists.
+.DI
+.LI YouTube
+This is a struct consisting of a URI to the users YouTube account.
+It is possible that a user will not have a YouTube channel.
+
+The fields are as follows:
+.II
+.LI URI
+This is a link to the users YouTube channel.
+It is always in the form \(dqhttps://www.youtube.com/<CHANNEL ENDPOINT>\(dq.
+It should be noted that there is no guarantee that the channel actually exists.
+.DI
+.LI Twitter
+This is a struct consisting of a URI to the users Twitter account.
+It is possible that a user will not have a Twitter account.
+
+The fields are as follows:
+.II
+.LI URI
+This is a link to the users Twitter account.
+It is always in the form \(dqhttps://www.twitter.com/<TWITTER HANDLE>\(dq.
+It should be noted that there is no guarantee that the account actually exists.
+.DI
+.LI SpeedRunsLive
+This is a struct consisting of a URI to the users SpeedRunsLive account.
+It is possible that a user will not have a SpeedRunsLive account.
+
+The fields are as follows:
+.II
+.LI URI
+This is a link to the users SpeedRunsLive account.
+It is always in the form \(dqhttp://www.speedrunslive.com/profiles/#!/<USERNAME>\(dq.
+It should be noted that there is no guarantee that the account actually exists.
+It should also be noted that this URI is an HTTP URI, not an HTTPS one like the others.
+.DI
+.LI Assets
+This is a struct consisting of graphical assets related to the user such as their profile picture
+and custom badge.
+
+The fields are as follows:
+.II
+.LI Icon
+This is a struct consisting of a URI to the users custom badge.
+Just because the
+.I URI
+field is set does not mean that the user actually uses a custom badge, it just means that the linked
+badge is the last custom badge that they used.
+If a user has used a custom badge in the past and currently uses the \(dqOriginal Donor\(dq badge
+then the URI will still point to the last used custom badge.
+
+The fields are as follows:
+.II
+.LI URI
+This is a link to the users custom badge.
+It is always in the form
+.RI \(dqhttps://www.speedrun.com/userasset/< User.ID ">/icon?v=<UNKNOWN ID>\(dq."
+It should be noted that there is no guarantee a user has used a custom badge before, so this field
+may be nil.
+.DI
+.LI Image
+This is a struct consisting of a URI to the users profile picture.
+
+The fields are as follows:
+.II
+.LI URI
+This is a link to the users profile picture.
+It is always in the form
+.RI \(dqhttps://www.speedrun.com/userasset/< User.ID ">/image?v=<UNKNOWN ID>\(dq."
+It should be noted that there is no guarantee a user has a profile picture, so this field may be
+nil.
+.ZI
+.LI Links
+This is a slice of links related to the current user.
+Examples of links that may be in this slice include a link to a users personal bests or a link to
+the games a user moderates.
+For more information on the
+.B Link
+struct see the
+.BR Link (3go)
+manual page.
+.SH SEE ALSO
+.BR Link (3go)
