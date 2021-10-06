@@ -110,7 +110,7 @@ type User struct {
 		URI string `json:"uri"`
 	} `json:"hitbox"`
 	/* The users YouTube channel */
-	Youtube struct {
+	YouTube struct {
 		/* The URI */
 		URI string `json:"uri"`
 	} `json:"youtube"`
