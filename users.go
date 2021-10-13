@@ -177,6 +177,23 @@ func paginateUsers(endpoint string, max int) ([]User, error) {
 	return allData[:max], nil
 }
 
+/* AuthenticateUser allows you to connect a speedrun.com user with the user of your software. The
+ * function takes an API key that is only available to the user and checks to see if a user with
+ * such an API key exists. If the user does exist, then a `User` struct of that user is returned.
+ * Otherwise an error will be returned.
+ */
+func AuthenticateUser(apiKey string) (User, error) {
+	var u struct {
+		Data User `json:"data"`
+	}
+
+	err := requestAndUnmarshall("/profile", &u, map[string]string{"X-API-Key": apiKey})
+	if err != nil {
+		return User{}, err
+	}
+	return u.Data, nil
+}
+
 /* FetchUser returns a single `User` struct by searching for a user that matches the name `name`
  * exactly.
  */
