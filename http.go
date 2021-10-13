@@ -52,7 +52,7 @@ func requestAndUnmarshall(endpoint string, object interface{}, headers map[strin
 func request(endpoint string, headers map[string]string) ([]byte, error) {
 	var resp *http.Response
 
-	req, err := http.NewRequest("GET", api + endpoint, nil)
+	req, err := http.NewRequest("GET", api+endpoint, nil)
 	if err != nil {
 		return nil, err
 	}
