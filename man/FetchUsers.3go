@@ -14,7 +14,7 @@
 .\" LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 .\" OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 .\" PERFORMANCE OF THIS SOFTWARE.
-.TH FETCHUSERS 3go "06 October, 2021" Halalruns "Go Programmers Manual"
+.TH FETCHUSERS 3go "13 October, 2021" Halalruns "Go Programmers Manual"
 .SH NAME
 .BR FetchUser ", " FetchUsers " \- fetch speedrun.com users"
 .SH SYNOPSIS
@@ -117,7 +117,7 @@ func main() {
     users, err := halalruns.FetchUsers(uf)
     if err == nil {
         fmt.Println("The following profiles are likely bots")
-        for _, u := range users  {
+        for _, u := range users {
             fmt.Println(u.Weblink)
         }
     }
