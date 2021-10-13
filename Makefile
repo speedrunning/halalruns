@@ -10,6 +10,7 @@ check:
 
 docs:
 	sed '1,/^$$/d' man/macros.tmac >tmp.tmac
+	trap 'rm -f tmp.tmac tmp.3go' EXIT; \
 	>/dev/null command -v gzip && has_gzip=true || has_gzip=false; \
 	for manpage in man/*.3go; do \
 		>tmp.3go sed -n -e '/^\.\s*so\s\s*macros\.tmac$$/! {p; d}' \
