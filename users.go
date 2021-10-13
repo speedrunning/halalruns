@@ -318,8 +318,7 @@ func (u User) PersonalBests(pbf PBFilter) ([]PersonalBest, error) {
  * you want to filter specific WRs you are better off using `User.PersonalBests()`.
  */
 func (u User) WorldRecords() ([]PersonalBest, error) {
-	pbs, err := u.PersonalBests(PBFilter{Top: 1})
-	return pbs, err
+	return u.PersonalBests(PBFilter{Top: 1})
 }
 
 /* Podiums fetches all of users podium runs. A podium run is any top-3 run. This function does not
@@ -327,6 +326,5 @@ func (u User) WorldRecords() ([]PersonalBest, error) {
  * `User.PersonalBests()`.
  */
 func (u User) Podiums() ([]PersonalBest, error) {
-	pbs, err := u.PersonalBests(PBFilter{Top: 3})
-	return pbs, err
+	return u.PersonalBests(PBFilter{Top: 3})
 }
