@@ -26,9 +26,10 @@ import (
 )
 
 const (
-	api       = "https://www.speedrun.com/api/v1"
-	rateLimit = 420
-	maxLoops  = 10
+	api            = "https://www.speedrun.com/api/v1"
+	rateLimit      = 420
+	maxLoops       = 10
+	maxRequestSize = 200
 )
 
 type httpError struct {

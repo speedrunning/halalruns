@@ -23,8 +23,6 @@ import (
 	"sync"
 )
 
-const maxRequestSize = 200
-
 /* UserOrder is an enum for the different ways to order users */
 type UserOrder uint
 
