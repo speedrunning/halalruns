@@ -19,6 +19,7 @@ package halalruns
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -27,10 +28,15 @@ import (
 const (
 	api       = "https://www.speedrun.com/api/v1"
 	rateLimit = 420
+	maxLoops  = 10
 )
 
-func requestAndUnmarshall(endpoint string, object interface{}) error {
-	jsonBytes, err := request(endpoint)
+type httpError struct {
+	Message string `json:"message"`
+}
+
+func requestAndUnmarshall(endpoint string, object interface{}, headers map[string]string) error {
+	jsonBytes, err := request(endpoint, headers)
 	if err != nil {
 		return err
 	}
@@ -43,22 +49,45 @@ func requestAndUnmarshall(endpoint string, object interface{}) error {
 	return nil
 }
 
-func request(endpoint string) ([]byte, error) {
+func request(endpoint string, headers map[string]string) ([]byte, error) {
 	var resp *http.Response
-	var err error
 
-	for {
-		resp, err = http.Get(api + endpoint)
+	req, err := http.NewRequest("GET", api + endpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if headers != nil {
+		for k, v := range headers {
+			req.Header.Add(k, v)
+		}
+	}
+
+	for i := 0; true; i++ {
+		resp, err = http.DefaultClient.Do(req)
 		if err != nil {
 			return nil, err
 		}
-		if resp.StatusCode != rateLimit {
-			break
+
+		if resp.StatusCode == rateLimit {
+			if i == maxLoops {
+				resp.Body.Close()
+				return nil, errors.New("Request failed (too many rate limits)")
+			}
+			time.Sleep(2 * time.Second)
+		} else if resp.StatusCode >= 400 {
+			data, _ := ioutil.ReadAll(resp.Body)
+			resp.Body.Close()
+			message := httpError{}
+			err = json.Unmarshal(data, &message)
+			return nil, errors.New(message.Message)
+		} else {
+			data, _ := ioutil.ReadAll(resp.Body)
+			resp.Body.Close()
+			return data, nil
 		}
-		time.Sleep(2 * time.Second)
-		resp.Body.Close()
 	}
 
-	data, _ := ioutil.ReadAll(resp.Body)
-	return data, nil
+	/* NOTREACHED */
+	return nil, nil
 }

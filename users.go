@@ -124,7 +124,7 @@ func paginateUsers(endpoint string, max int) ([]User, error) {
 		var u struct {
 			Data []User `json:"data"`
 		}
-		err := requestAndUnmarshall(endpoint, &u)
+		err := requestAndUnmarshall(endpoint, &u, nil)
 		if err != nil {
 			return nil, err
 		}
@@ -153,7 +153,7 @@ func paginateUsers(endpoint string, max int) ([]User, error) {
 				} `json:"pagination"`
 			}
 
-			localErr := requestAndUnmarshall(endpoint+"&offset="+strconv.Itoa(n), &o)
+			localErr := requestAndUnmarshall(endpoint+"&offset="+strconv.Itoa(n), &o, nil)
 			if localErr != nil {
 				err = localErr
 			}
@@ -196,7 +196,7 @@ func FetchUsers(uf UserFilter) ([]User, error) {
 		}
 		endpoint := "/users/" + uf.ID
 
-		err := requestAndUnmarshall(endpoint, &u)
+		err := requestAndUnmarshall(endpoint, &u, nil)
 		if err != nil {
 			return nil, err
 		}
@@ -294,7 +294,7 @@ func (u User) PersonalBests(pbf PBFilter) ([]PersonalBest, error) {
 			} `json:"platform"`
 		} `json:"data"`
 	}
-	err := requestAndUnmarshall(endpoint, &runs)
+	err := requestAndUnmarshall(endpoint, &runs, nil)
 	if err != nil {
 		return nil, err
 	}
